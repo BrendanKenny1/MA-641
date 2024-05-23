@@ -1,0 +1,30 @@
+---
+title: "HW1 Q8"
+output: html_notebook
+---
+```{r}
+normal_process <- rnorm(48, mean = 0, sd = 1)
+#plotting
+plot(normal_process, type = "l", xlab = "Time", ylab = "Values", main = "Random Process")
+
+```
+
+```{r}
+#chi_square
+chisq_process <- rchisq(48, df = 2)
+
+#plotting
+plot(chisq_process, type = "l", xlab = "Time", ylab = "Value",
+     main = "Chi-square Random Process (df = 2)")
+```
+
+```{r}
+#t-distributed 
+set.seed(123)
+t_process <- rt(48, df = 5)
+
+#plotting
+plot(t_process, type = "l", xlab = "Time", ylab = "Value",
+     main = "t-distributed Random Process (df = 5)")
+```
+
