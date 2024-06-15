@@ -1,0 +1,65 @@
+---
+title: "HW3-1"
+output:
+  html_document:
+    df_print: paged
+---
+```{r}
+# parameters
+theta1_a <- 0.5
+theta2_a <- 0.4
+theta1_b <- 1.2
+theta2_b <- -0.7
+n_obs <- 150
+```
+
+```{r}
+# ACF for the MA(2) (a)
+acf_a <- ARMAacf(ma = c(theta1_a, theta2_a), lag.max = 20)
+# ACF for the MA(2) (b)
+acf_b <- ARMAacf(ma = c(theta1_b, theta2_b), lag.max = 20)
+
+```
+
+```{r}
+# plot ACF for the first MA(2) model
+par(mfrow = c(2, 1))  # Set up the plotting area for two plots
+plot(acf_a, type = "h", main = "ACF of MA(2) Model for (a)", xlab = "Lag", ylab = "ACF")
+
+
+# plot ACF for the second MA(2) model
+plot(acf_b, type = "h", main = "ACF of MA(2) Model for (b)", xlab = "Lag", ylab = "ACF")
+
+```
+```{r}
+par(mfrow = c(2, 1), mar = c(4, 4, 4, 8))
+# simulate 150 observations for each MA(2) model
+sim_a <- arima.sim(n = 150, list(ma = c(theta1_a, theta2_a)))
+sim_b <- arima.sim(n = 150, list(ma = c(theta1_b, theta2_b)))
+
+```
+
+```{r}
+par(mfrow = c(2, 2))
+plot.ts(sim_a, main = "Simulated Series for (a)",
+        ylab = "Value", xlab = "Time")
+plot.ts(sim_b, main = "Simulated Series for (b)",
+        ylab = "Value", xlab = "Time")
+```
+
+```{r}
+par(mfrow = c(2, 1), mar = c(4, 4, 4, 8))
+# simulate 150 observations for each MA(2) model
+sim_a <- arima.sim(n = 150, list(ma = c(theta1_a, theta2_a)))
+sim_b <- arima.sim(n = 150, list(ma = c(theta1_b, theta2_b)))
+
+# plot the time series and sample ACF for (a)
+par(mfrow = c(2, 2))  # Set up the plotting area for four plots
+acf(sim_a, main = "Sample ACF of MA(2) Model (a)")
+
+# plot the time series and sample ACF for (b)
+acf(sim_b, main = "Sample ACF of MA(2) Model (b)")
+par(mfrow = c(1, 1))
+```
+
+

@@ -1,0 +1,56 @@
+---
+title: "HW3-4"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+```{r}
+# parameters
+phi_a <- 0.7
+theta_a <- 0.4
+phi_b <- 0.7
+theta_b <- -0.4
+```
+
+```{r}
+#ACF for model (a)
+acf_a <- ARMAacf(ar = phi_a, ma = theta_a, lag.max = 20)
+
+#ACF for model (b)
+acf_b <- ARMAacf(ar = phi_b, ma = theta_b, lag.max = 20)
+```
+
+```{r}
+# Simulate the models
+set.seed(123)  # Set seed for reproducibility
+sim_a <- arima.sim(model = list(ar = phi_a, ma = theta_a), n = 150)
+sim_b <- arima.sim(model = list(ar = phi_b, ma = theta_b), n = 150)
+```
+
+```{r}
+# Plot the theoretical ACFs
+par(mfrow = c(2, 2))  # Set up plotting area
+plot(acf_a, type = "h", main = "Theoretical ACF for ARMA(1,1) for (a)",
+     xlab = "Lag", ylab = "ACF")
+plot(acf_b, type = "h", main = "Theoretical ACF for ARMA(1,1) for (b)",
+     xlab = "Lag", ylab = "ACF")
+```
+
+```{r}
+# series plot
+par(mfrow = c(2, 2))
+plot.ts(sim_a, main = "Simulated Series for ARMA(1,1) for (a)",
+        ylab = "Value", xlab = "Time")
+plot.ts(sim_b, main = "Simulated Series for ARMA(1,1) for (b)",
+        ylab = "Value", xlab = "Time")
+```
+
+```{r}
+# ACF plots
+par(mfrow = c(2, 2), mar = c(4, 4, 4, 1))
+acf(sim_a, main = "Sample ACF for ARMA(1,1) with ?? = 0.7, ?? = 0.4")
+acf(sim_b, main = "Sample ACF for ARMA(1,1) with ?? = 0.7, ?? = -0.4")
+```
+

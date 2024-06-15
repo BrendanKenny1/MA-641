@@ -1,0 +1,76 @@
+---
+title: "HW3-3"
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r}
+# parameters
+phi1_a <- 0.6
+phi2_a <- 0.3
+
+phi1_b <- -0.4
+phi2_b <- 0.5
+
+phi1_c <- 1.2
+phi2_c <- -0.7
+```
+
+```{r}
+# calculating roots
+roots_a <- polyroot(c(1, -phi1_a, -phi2_a))
+roots_b <- polyroot(c(1, -phi1_b, -phi2_b))
+roots_c <- polyroot(c(1, -phi1_c, -phi2_c))
+
+cat("Roots of (a):", roots_a,"\n")
+cat("Roots of (b):", roots_b,"\n")
+cat("Roots of (c):", roots_c,"\n")
+
+```
+
+```{r}
+# roots real or complex
+is_complex_a <- Im(roots_a) != 0
+is_complex_b <- Im(roots_b) != 0
+is_complex_c <- Im(roots_c) != 0
+
+cat("Roots for (a) are complex:", any(is_complex_a),"\n")
+cat("Roots for (b) are complex:", any(is_complex_b),"\n")
+cat("Roots for (c) are complex:", any(is_complex_c),"\n")
+```
+
+```{r}
+# calculating the damping factor (R) and frequency (Theta)
+if (any(is_complex_a)) {
+  modulus_a <- Mod(roots_a[1])
+  angle_a <- Arg(roots_a[1])
+  cat("Model (a) - Damping factor (R):", modulus_a, ", Frequency (Theta):", angle_a, "\n")
+}
+if (any(is_complex_b)) {
+  modulus_b <- Mod(roots_b[1])
+  angle_b <- Arg(roots_b[1])
+  cat("Model (b) - Damping factor (R):", modulus_b, ", Frequency (Theta):", angle_b, "\n")
+}
+if (any(is_complex_c)) {
+  modulus_c <- Mod(roots_c[1])
+  angle_c <- Arg(roots_c[1])
+  cat("Model (c) - Damping factor (R):", modulus_c, ", Frequency (Theta):", angle_c, "\n")
+}
+```
+
+```{r}
+sim_a <- arima.sim(n = 150, list(ar = c(phi1_a, phi2_a)))
+sim_b <- arima.sim(n = 150, list(ar = c(phi1_b, phi2_b)))
+sim_c <- arima.sim(n = 150, list(ar = c(phi1_c, phi2_c)))
+par(mfrow = c(3, 2), mar = c(4, 4, 4, 1))
+# Model (a)
+acf(sim_a, main = "Sample ACF of AR(2) Model (a)")
+
+# Model (b)
+acf(sim_b, main = "Sample ACF of AR(2) Model (b)")
+
+# Model (c)
+acf(sim_c, main = "Sample ACF of AR(2) Model (c)")
+par(mfrow = c(1, 1))
+
+```
